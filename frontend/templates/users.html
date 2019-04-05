@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- flex box grid stylesheet -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css"
+        type="text/css">
+    <link rel="stylesheet" href="../dist/css/users.css">
+</head>
+<body>
+    <div class="container">
+    
+        <form class="my-form">
+            <h1> Create a new user</h1>
+            <input type="text" name="username" placeholder="Username">
+            <input type="password" name="password" placeholder="Password">
+            <input type="submit" value="Submit">
+        </form>
+        <br>
+
+        <h1>Users</h1>
+    </div>
+
+    
+    
+<script>
+
+//fetch all users from users api route
+function fetch_all_users () {
+    //fetch, format the response to json, then call a formatData function
+    fetch('http://127.0.0.1:5000/api/users')
+    .then((res) => res.json())
+    .then((data) => {
+        console.log(data)
+        formatData(data)
+    })
+}
+
+function formatData(data){
+    data.users.forEach((user) => {
+        console.log(user);
+        document.querySelector('.container').innerHTML +=
+        `
+        <div class="row start user-row">
+            <div class="col-md-4 user-column">
+            <p class="username">${user.username}</p>
+            </div>
+        </div>
+        `
+    })
+}
+
+fetch_all_users();
+
+let newUserForm = document.querySelector(".my-form")
+let formData = new FormData(newUserForm)
+
+newUserForm.onsubmit = function newUser() {
+    console.log("Form submitted")
+}
+
+</script>
+</body>
+</html>
